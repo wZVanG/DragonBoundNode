@@ -95,6 +95,5 @@ var SERVER_OPCODE = Object.freeze({
         relationship_change: 46,
         relationship_approved: 47
     });
-	
 module.exports.SERVER = SERVER_OPCODE;
-module.exports.CLIENT  = CLIENT_OPCODE;
+module.exports.CLIENT = CLIENT_OPCODE;
