@@ -44,15 +44,14 @@ function User(id, session, index) {
         this.is_master = 0;
         this.is_ready = 0;
         this.is_bot = 0;
+		this.mobile = 0;
         this.avatars = [this.head, this.body, this.eyes, this.flag, this.foreground, this.background];
 }
 User.prototype.GetGameID = function() {
         return this.game_id;
 }
 User.prototype.GetPlayerInfo = function() {
-        var data = [
-        OPCODE.SERVER.my_player_info, [
-        this.user_id, this.location_type, this.room_number, this.game_id, this.rank, this.gp, this.gold, this.cash, this.gender, this.unlock, this.head, this.body, this.eyes, this.flag, this.background, this.foreground, this.event1, this.event2, this.photo_url, this.guild, this.guild_job, this.name_changes, this.power_user, this.tournament, this.plus10gp, this.mobile_fox, this.country, this.flowers, this.relationship_status, this.relationship_with_id, this.relationship_with_rank, this.relationship_with_photo, this.relationship_with_name, this.relationship_with_gender]];
+        var data = [OPCODE.SERVER.my_player_info, [this.user_id, this.location_type, this.room_number, this.game_id, this.rank, this.gp, this.gold, this.cash, this.gender, this.unlock, this.head, this.body, this.eyes, this.flag, this.background, this.foreground, this.event1, this.event2, this.photo_url, this.guild, this.guild_job, this.name_changes, this.power_user, this.tournament, this.plus10gp, this.mobile_fox, this.country, this.flowers, this.relationship_status, this.relationship_with_id, this.relationship_with_rank, this.relationship_with_photo, this.relationship_with_name, this.relationship_with_gender]];
         return data;
 }
 module.exports = User;

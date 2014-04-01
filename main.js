@@ -53,6 +53,18 @@ e[OPCODE.CLIENT.room_join] = function(index, data) {
     console.log("data: " + data);
 };
 
+e[OPCODE.CLIENT.room_change_ready] = function(index, data) {
+	var dat = [OPCODE.SERVER.changed_ready, Users[index].id, data[0]];
+	Users[index].is_ready = data[0] == true ? 1: 0;
+	sv.SendData(index, dat);
+};
+
+e[OPCODE.CLIENT.mobile] = function(index, data) {
+    var dat = [OPCODE.SERVER.changed_mobile, Users[index].id, data[0]];
+	Users[index].mobile = data[0];
+	sv.SendData(index, dat);
+};
+
 function SendRoomPlayers(index, rom) {
     sv.SendData(index, rom.GetPlayers());
 }

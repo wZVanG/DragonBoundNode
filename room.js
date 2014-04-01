@@ -56,9 +56,7 @@ Room.prototype.Join = function(user, master) {
     user.position = SlotJoin();
 }
 Room.prototype.GetState = function() {
-    var dat = [
-    OPCODE.SERVER.room_state, [
-    this.type, this.id, this.title, this.password, this.max_players, this.game_mode, this.map, this.avatar_on, this.max_wind, this.gp_rate, this.minimap, this.s1_disabled, this.tele_disabled, this.is_random_teams]];
+    var dat = [OPCODE.SERVER.room_state, [this.type, this.id, this.title, this.password, this.max_players, this.game_mode, this.map, this.avatar_on, this.max_wind, this.gp_rate, this.minimap, this.s1_disabled, this.tele_disabled, this.is_random_teams]];
     return dat;
 }
 Room.prototype.GetPlayers = function() {
@@ -86,9 +84,7 @@ Room.prototype.GetPlayers = function() {
 Room.prototype.UpdateSlot = function(us) {
     var rate = 7;
     var cout = Users.length;
-    var dat = [
-    OPCODE.SERVER.slot_update, [
-    cout, [], us.position, us.id, us.game_id, us.rank, us.is_master, us.is_ready, us.gender, us.mobile, [us.avatars], us.is_bot, us.power_user, us.relationship_status]];
+    var dat = [OPCODE.SERVER.slot_update, [cout, [], us.position, us.id, us.game_id, us.rank, us.is_master, us.is_ready, us.gender, us.mobile, [us.avatars], us.is_bot, us.power_user, us.relationship_status]];
     return dat;
 }
 Room.prototype.toList = function() {
