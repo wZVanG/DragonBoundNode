@@ -1,3 +1,12 @@
+var CHAT_TYPE_NORMAL = 0,
+    CHAT_TYPE_DEAD = 2,
+    CHAT_TYPE_GOLD = 3,
+    CHAT_TYPE_GM = 5,
+    CHAT_TYPE_SYSTEM = 6,
+    CHAT_TYPE_NORMAL_TEAM = 7,
+    CHAT_TYPE_GM_BUGLE = 9,
+    CHAT_TYPE_LOVE = 12;
+
 var SERVER_OPCODE = Object.freeze({
     chat: 0,
     my_player_info: 1,

@@ -9,7 +9,7 @@ function User(id, session, index) {
         this.location_type = 1;
         this.room_number = 0;
         this.game_id = "test";
-        this.rank = 0;
+        this.rank = 24;
         this.gp = 0;
         this.gold = 0;
         this.cash = 0;
@@ -40,7 +40,7 @@ function User(id, session, index) {
         this.relationship_with_name = "";
         this.relationship_with_gender = "";
         this.position = 0;
-        this.guild = 0;
+        this.guild = "GM";
         this.is_master = 0;
         this.is_ready = 0;
         this.is_bot = 0;

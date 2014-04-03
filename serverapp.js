@@ -42,9 +42,13 @@ function SendData(index, data) {
 
 function SendDataAll(index, data, exp) {
     for (var i = 0; i < clients.length; i++) {
-        if (!(exp == true) && !(i == index)) {
+        if (exp != true) {
             SendData(i, data);
         }
+		else if ( i != index)
+		{
+		    SendData(i, data);
+		}
     }
 }
 ws.on('request', function(request) {

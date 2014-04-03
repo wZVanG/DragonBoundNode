@@ -28,10 +28,31 @@ e[OPCODE.CLIENT.login] = function(index, data) {
     data = [OPCODE.SERVER.login_avatars];
     sv.SendData(index, data);
     sv.SendData(index, tUser.GetPlayerInfo());
+	UpdateBoddy(index);
 };
 e[OPCODE.CLIENT.chat] = function(index, data) {
-    var datas = [OPCODE.SERVER.chat, data[0], Users[index].GetGameID(), data[1]];
+    var ur = Users[index];
+	var msj = data[0];
+	var type = data[1];
+	var datas = [OPCODE.SERVER.chat, msj, ur.GetGameID(), type];
+	
+	if (ur.rank == 24)
+	{
+	    datas[3] = 5;
+	}
+	
+	if (ur.guild != 0)
+	{
+	    datas[4] = ur.guild;
+	}
+    
     sv.SendDataAll(index, datas, false);
+};
+e[OPCODE.CLIENT.change_name] = function(index, data) {
+    var name = data[0];
+	Users[index].game_id = name;
+	sv.SendData(index, Users[index].GetPlayerInfo());
+	UpdateBoddy(index);
 };
 e[OPCODE.CLIENT.room_create] = function(index, data) {
     var rom = new Room();
@@ -75,8 +96,19 @@ function UpdateListRooms(index) {
         var dt = rom.toList();
         romx.push(dt);
     });
-    var dat = [
-    OPCODE.SERVER.rooms_list, romx, 0, 0];
+    var dat = [OPCODE.SERVER.rooms_list, romx, 0, 0];
     sv.SendDataAll(index, dat, false);
+}
+
+function UpdateBoddy(index) {
+    var dat = [OPCODE.SERVER.channel_players,[]];
+	var i = 0;
+	Users.forEach(function(us) {
+	    dat[1][i++] = us.id;
+		dat[1][i++] = us.game_id;
+		dat[1][i++] = us.rank;
+		dat[1][i++] = us.guild;
+	});
+	sv.SendDataAll(index, dat, false);
 }
 sv.SetHandler("receive", Object.freeze(e));
