@@ -9,9 +9,6 @@ var disconnected_handler = void 0;
 var connected_handler = void 0;
 var clients = [];
 
-function htmlEntities(str) {
-    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
 var server = http.createServer(function(request, response) {});
 server.listen(webSocketsServerPort, function() {
     console.log(" Server is listening on port " + webSocketsServerPort);

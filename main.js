@@ -32,7 +32,7 @@ e[OPCODE.CLIENT.login] = function(index, data) {
 };
 e[OPCODE.CLIENT.chat] = function(index, data) {
     var ur = Users[index];
-	var msj = data[0];
+	var msj = htmlEntities(data[0]);
 	var type = data[1];
 	var datas = [OPCODE.SERVER.chat, msj, ur.GetGameID(), type];
 	
@@ -110,5 +110,9 @@ function UpdateBoddy(index) {
 		dat[1][i++] = us.guild;
 	});
 	sv.SendDataAll(index, dat, false);
+}
+
+function htmlEntities(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 sv.SetHandler("receive", Object.freeze(e));
