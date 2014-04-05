@@ -1,57 +1,67 @@
 var OPCODE = require("./define.js");
 
-function User(id, session, index) {
+function User(id, session, index, a) {
         this.id = id;
         this.session = session;
         this.index = index;
         // if is valid user
-        this.user_id = 1;
-        this.location_type = 1;
-        this.room_number = 0;
-        this.game_id = "test";
-        this.rank = 24;
-        this.gp = 0;
-        this.gold = 0;
-        this.cash = 0;
-        this.gender = "m";
-        this.unlock = 1;
-        this.head = 1;
-        this.body = 2;
-        this.eyes = 0;
-        this.flag = 0;
-        this.background = 0;
-        this.foreground = 0;
-        this.event1 = 0;
-        this.event2 = 0;
-        this.photo_url = 100000014337670;
-        this.guild = 0;
-        this.guild_job = 1;
-        this.name_changes = 1;
-        this.power_user = 0;
-        this.tournament = 0;
-        this.plus10gp = 0;
-        this.mobile_fox = 1;
-        this.country = 1;
-        this.flowers = 0;
-        this.relationship_status = 0;
-        this.relationship_with_id = 0;
-        this.relationship_with_rank = 0;
-        this.relationship_with_photo = 0;
-        this.relationship_with_name = "";
-        this.relationship_with_gender = "";
-        this.position = 0;
-        this.guild = "GM";
-        this.is_master = 0;
-        this.is_ready = 0;
-        this.is_bot = 0;
-		this.mobile = 0;
-        this.avatars = [this.head, this.body, this.eyes, this.flag, this.foreground, this.background];
+		this.user_id = a.user_id;
+		this.location_type = a.location_type;
+		this.room_number = a.room_number;
+		this.game_id = a.game_id;
+		this.rank = a.rank;
+		this.gp = a.gp;
+		this.gold = a.gold;
+		this.cash = a.cash;
+		this.gender = a.gender;
+		this.un_lock = a.un_lock;
+		this.photo_url = a.photo_url;
+		this.name_changes = a.name_changes;
+		this.power_user = a.power_user;
+		this.tournament = a.tournament;
+		this.plus10gp = a.plus10gp;
+		this.mobile_fox = a.mobile_fox;
+		this.country = a.country;
+		this.flowers = a.flowers;
+		this.position = a.position;
+		this.is_master = a.is_master;
+		this.is_ready = a.is_ready;
+		this.is_bot = a.is_bot;
+		this.mobile = a.mobile;
+		this.head = a.head;
+		this.body = a.body;
+		this.eyes = a.eyes;
+		this.flag = a.flag;
+		this.background = a.background;
+		this.foreground = a.foreground;
+		this.event1 = a.event1;
+		this.event2 = a.event2;
+		
+		this.guild = a.guild;
+		this.guild_job = a.guild_job;
+		
+		this.relationship_status = a.relationship_status;
+		this.relationship_with_id = a.relationship_with_id;
+		this.relationship_with_rank = a.relationship_with_rank;
+		this.relationship_with_photo = a.relationship_with_photo;
+		this.relationship_with_name = a.relationship_with_name;
+		this.relationship_with_gender = a.relationship_with_gender;
+		
+		this.avatars = [this.head, this.body, this.eyes, this.flag, this.foreground, this.background];
 }
+
+
 User.prototype.GetGameID = function() {
         return this.game_id;
 }
+
 User.prototype.GetPlayerInfo = function() {
-        var data = [OPCODE.SERVER.my_player_info, [this.user_id, this.location_type, this.room_number, this.game_id, this.rank, this.gp, this.gold, this.cash, this.gender, this.unlock, this.head, this.body, this.eyes, this.flag, this.background, this.foreground, this.event1, this.event2, this.photo_url, this.guild, this.guild_job, this.name_changes, this.power_user, this.tournament, this.plus10gp, this.mobile_fox, this.country, this.flowers, this.relationship_status, this.relationship_with_id, this.relationship_with_rank, this.relationship_with_photo, this.relationship_with_name, this.relationship_with_gender]];
+        var data = [OPCODE.SERVER.my_player_info, [this.user_id, this.location_type, this.room_number, this.game_id, this.rank, this.gp, this.gold, this.cash, this.gender, this.un_lock, this.head, this.body, this.eyes, this.flag, this.background, this.foreground, this.event1, this.event2, this.photo_url, this.guild, this.guild_job, this.name_changes, this.power_user, this.tournament, this.plus10gp, this.mobile_fox, this.country, this.flowers, this.relationship_status, this.relationship_with_id, this.relationship_with_rank, this.relationship_with_photo, this.relationship_with_name, this.relationship_with_gender]];
         return data;
 }
+
+User.prototype.GetAvatars = function() {
+        var data = [];
+}
+
 module.exports = User;

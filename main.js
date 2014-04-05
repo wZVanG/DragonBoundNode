@@ -4,10 +4,15 @@ var sv = require('./serverapp.js');
 var User = require('./user.js');
 var OPCODE = require("./define.js");
 var Room = require("./room.js");
+var MySql = require("./mysql.js");
 var e = [];
 var ver = 41;
 var Users = [];
 var Rooms = [];
+
+var MySql = new MySql();
+MySql.Connect();
+
 sv.SetHandler("connected", function(index) {
     console.log("[DragonSocket] Connected");
     var data = [OPCODE.SERVER.hi, ver, "Beginners", 0, 0];
@@ -21,15 +26,33 @@ sv.SetHandler("error", function(a) {
 });
 e[OPCODE.CLIENT.login] = function(index, data) {
     console.log("index: " + index + " : " + data);
-    var tUser = new User(data[1], data[2], index);
-    Users[index] = tUser;
-    var data = [OPCODE.SERVER.login_profile];
-    sv.SendData(index, data);
-    data = [OPCODE.SERVER.login_avatars];
-    sv.SendData(index, data);
-    sv.SendData(index, tUser.GetPlayerInfo());
-	UpdateBoddy(index);
+	
+	var id = data[1];
+	var sess = data[2];
+	var sql = 'SELECT * FROM users, relationship, avatars, guild_list WHERE users.user_id=' + id;
+	
+	MySql.Querry(sql , function (res) 
+	{
+		console.log("MySql: " + res[0].game_id);
+		var tUser = new User(id, sess, index, res[0]);
+		Users[index] = tUser;
+		
+		var data = [OPCODE.SERVER.login_profile];
+		sv.SendData(index, data);
+		
+		data = [OPCODE.SERVER.login_avatars];
+		sv.SendData(index, data);
+		
+		sv.SendData(index, tUser.GetPlayerInfo());
+		UpdateBoddy(index);
+	});
+
 };
+
+e[OPCODE.CLIENT.get_my_avatars] = function(index, data) {
+    var dat = [];
+};
+
 e[OPCODE.CLIENT.chat] = function(index, data) {
     var ur = Users[index];
 	var msj = htmlEntities(data[0]);
@@ -71,6 +94,10 @@ e[OPCODE.CLIENT.room_create] = function(index, data) {
 };
 e[OPCODE.CLIENT.room_join] = function(index, data) {
     //var d = rom.UpdateListRooms(index);
+    console.log("data: " + data);
+};
+
+e[OPCODE.CLIENT.channel_join] = function(index, data) {
     console.log("data: " + data);
 };
 
