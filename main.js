@@ -29,11 +29,11 @@ e[OPCODE.CLIENT.login] = function(index, data) {
 	
 	var id = data[1];
 	var sess = data[2];
-	var sql = 'SELECT * FROM users, relationship, avatars, guild_list WHERE users.user_id=' + id;
+	var sql = 'SELECT * FROM users u, relationship r, guild_list g, avatars a WHERE u.user_id = '+ id +' AND r.user_id = u.user_id AND a.user_id = u.user_id AND g.user_id = u.user_id';
 	
 	MySql.Querry(sql , function (res) 
 	{
-		console.log("MySql: " + res[0].game_id);
+		//console.log("MySql: " + JSON.stringify(res));
 		var tUser = new User(id, sess, index, res[0]);
 		Users[index] = tUser;
 		
