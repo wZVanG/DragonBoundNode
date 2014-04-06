@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50534
 File Encoding         : 65001
 
-Date: 2014-04-05 18:54:52
+Date: 2014-04-06 01:09:33
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -36,7 +36,8 @@ CREATE TABLE `avatars` (
 -- ----------------------------
 -- Records of avatars
 -- ----------------------------
-INSERT INTO `avatars` VALUES ('1', '2', '0', '0', '0', '0', '0', '0', '1');
+INSERT INTO `avatars` VALUES ('189', '2', '951', '0', '394', '886', '0', '0', '1');
+INSERT INTO `avatars` VALUES ('1', '2', '0', '0', '0', '0', '0', '0', '2');
 
 -- ----------------------------
 -- Table structure for `guild_list`
@@ -54,6 +55,7 @@ CREATE TABLE `guild_list` (
 -- Records of guild_list
 -- ----------------------------
 INSERT INTO `guild_list` VALUES ('ADMIN', '1', '1');
+INSERT INTO `guild_list` VALUES ('0', '0', '2');
 
 -- ----------------------------
 -- Table structure for `items_list`
@@ -71,25 +73,36 @@ CREATE TABLE `items_list` (
 -- ----------------------------
 -- Records of items_list
 -- ----------------------------
+INSERT INTO `items_list` VALUES ('1', '3289', 'm', 'h', 'Default');
+INSERT INTO `items_list` VALUES ('189', '143', 'm', 'h', 'Love Cupid');
+INSERT INTO `items_list` VALUES ('394', '4816', 'a', '1', '(RARE) Cash Charger ');
+INSERT INTO `items_list` VALUES ('886', '3419', 'a', '2', 'zPaul');
+INSERT INTO `items_list` VALUES ('951', '3481', 'a', 'e', 'Eyes of Love');
 
 -- ----------------------------
 -- Table structure for `player_items`
 -- ----------------------------
 DROP TABLE IF EXISTS `player_items`;
 CREATE TABLE `player_items` (
-  `id` int(11) DEFAULT NULL,
-  `avatar` int(11) DEFAULT NULL,
   `used` int(11) DEFAULT NULL,
   `type_buy` varchar(20) DEFAULT NULL,
   `unk1` int(11) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`user_id`),
-  CONSTRAINT `player_items_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+  `item_id` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`item_id`,`id`),
+  KEY `R_12` (`item_id`),
+  CONSTRAINT `player_items_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `player_items_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items_list` (`item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of player_items
 -- ----------------------------
+INSERT INTO `player_items` VALUES ('1', 'g', '2', '1', '189', '2');
+INSERT INTO `player_items` VALUES ('1', 'g', '2', '1', '394', '5');
+INSERT INTO `player_items` VALUES ('1', 'g', '2', '1', '886', '4');
+INSERT INTO `player_items` VALUES ('1', 'g', '2', '1', '951', '3');
 
 -- ----------------------------
 -- Table structure for `relationship`
@@ -110,7 +123,8 @@ CREATE TABLE `relationship` (
 -- ----------------------------
 -- Records of relationship
 -- ----------------------------
-INSERT INTO `relationship` VALUES ('0', '0', '0', '0', '0', '', '1');
+INSERT INTO `relationship` VALUES ('0', '0', '0', '0', '', '', '1');
+INSERT INTO `relationship` VALUES ('0', '0', '0', '0', '', '', '2');
 
 -- ----------------------------
 -- Table structure for `users`
@@ -146,4 +160,5 @@ CREATE TABLE `users` (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES ('1', 'carlosx', '0', '1', '24', '0', '0', '0', 'm', '1', '100000014337670', '1', '1', '0', '1', '1', '1', '0', '0', '0', '0', '0', '0');
+INSERT INTO `users` VALUES ('1', 'CarlosX', '-1', '1', '24', '0', '0', '0', 'm', '1', '100000014337670', '1', '1', '0', '1', '1', '1', '0', '0', '0', '0', '0', '0');
+INSERT INTO `users` VALUES ('2', 'Carlos Cp', '-1', '1', '0', '0', '0', '0', 'm', '1', '100007220893250', '1', '1', '0', '1', '1', '1', '0', '0', '0', '0', '0', '0');

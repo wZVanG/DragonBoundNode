@@ -46,33 +46,31 @@ Room.prototype.Create = function(a, b, d, c) {
     this.power_user = 1;
     this.type = 1;
     this.minimap = 0;
-	
-	this.gp_a = 0;
-	this.gold_a = 0;
-	this.gp_b = 0;
-	this.gold_b = 0;
-	
+    this.gp_a = 0;
+    this.gold_a = 0;
+    this.gp_b = 0;
+    this.gold_b = 0;
     return 1;
 }
 Room.prototype.Join = function(user, master) {
-    var idx = Users.push(user)-1;
+    var idx = Users.push(user) - 1;
     if (master) {
-       user.is_master = 1;
+        user.is_master = 1;
     }
     user.position = SlotJoin();
-	user.room_id = idx;
-	user.UpdateRoomNumber(this.id);
+    user.room_id = idx;
+    user.UpdateRoomNumber(this.id);
 }
-Room.prototype.Leave = function(user){
-	Users.splice(user.room_id, 1);
-	user.UpdateRoomNumber(-1);
-	// gp - gold
-	var dat = [OPCODE.SERVER.player_left, 0, 0, user.user_id];
-	RemoveSlot(user.position);
-	return dat;
+Room.prototype.Leave = function(user) {
+    Users.splice(user.room_id, 1);
+    user.UpdateRoomNumber(-1);
+    // gp - gold
+    var dat = [OPCODE.SERVER.player_left, 0, 0, user.user_id];
+    RemoveSlot(user.position);
+    return dat;
 }
-Room.prototype.GetUsers = function(){
-	return Users;
+Room.prototype.GetUsers = function() {
+    return Users;
 }
 Room.prototype.GetState = function() {
     var dat = [OPCODE.SERVER.room_state, [this.type, this.id, this.title, this.password, this.max_players, this.game_mode, this.map, this.avatar_on, this.max_wind, this.gp_rate, this.minimap, this.s1_disabled, this.tele_disabled, this.is_random_teams]];
@@ -113,6 +111,7 @@ Room.prototype.toList = function() {
 Room.prototype.SetID = function(id) {
     this.id = id;
 }
+
 function SlotJoin() {
     var a = 0;
     var b = 0;
@@ -132,6 +131,7 @@ function SlotJoin() {
     }
     return GetPosT(team, a, b, false);
 }
+
 function RemoveSlot(posSlot) {
     var TeamLeav = posSlot % 2;
     var posArray = (TeamLeav == 1) ? (posSlot <= 3 ? (posSlot == 3 ? posSlot - 2 : posSlot - 1) : (posSlot - 1) / 2) : (TeamLeav < 4 ? ((TeamLeav == 2) ? TeamLeav - 1 : TeamLeav) : (TeamLeav / 2));
@@ -145,7 +145,7 @@ function RemoveSlot(posSlot) {
                 var px = GetPosT(TeamLeav, x, x, true);
                 var pnp = GetPosT(TeamLeav, np, np, true);
                 //set new
-				console.log("px: " + px + " png: " + pnp);
+                console.log("px: " + px + " png: " + pnp);
                 var us = GetUserPos(pnp);
                 if (us) {
                     us.position = px;
@@ -154,43 +154,35 @@ function RemoveSlot(posSlot) {
         }
     }
 }
-Room.prototype.NewMaster = function()
-{
-	console.log("NewMaster!");
-	var pos = 0;
+Room.prototype.NewMaster = function() {
+    console.log("NewMaster!");
+    var pos = 0;
     var foun = false;
-	var u_id = -1;
-    for (var i = 0; i < 4; i++)
-    {
-        if (d[0][i] == 1)
-        {
+    var u_id = -1;
+    for (var i = 0; i < 4; i++) {
+        if (d[0][i] == 1) {
             pos = GetPosT(0, i, i, true);
             foun = true;
             break;
-        }
-        else if (d[1][i] == 1)
-        {
+        } else if (d[1][i] == 1) {
             pos = GetPosT(1, i, i, true);
             foun = true;
             break;
         }
     }
-	
-	if (foun)
-    {
-		Users.forEach(function(us) {
-			if ( us.position == pos)
-			{
-				us.is_master = 1;
-				console.log("New Master Found!");
-				u_id = us.user_id;
-				return u_id;
-			}
-		});
+    if (foun) {
+        Users.forEach(function(us) {
+            if (us.position == pos) {
+                us.is_master = 1;
+                console.log("New Master Found!");
+                u_id = us.user_id;
+                return u_id;
+            }
+        });
     }
-	
-	return u_id;
+    return u_id;
 }
+
 function GetUserPos(pos) {
     Users.forEach(function(us) {
         if (us.position == pos) {
@@ -198,6 +190,7 @@ function GetUserPos(pos) {
         }
     });
 }
+
 function GetPosT(team, a, b, Rm) {
     if (Rm) {
         if (team == 0) team = 1;

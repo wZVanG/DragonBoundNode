@@ -8,7 +8,6 @@ var error_handler = void 0;
 var disconnected_handler = void 0;
 var connected_handler = void 0;
 var clients = [];
-
 var server = http.createServer(function(request, response) {});
 server.listen(webSocketsServerPort, function() {
     console.log(" Server is listening on port " + webSocketsServerPort);
@@ -34,7 +33,7 @@ function SetHandler(a, b) {
 }
 
 function SendData(index, data) {
-	console.log("send: " + JSON.stringify(data));
+    console.log("send: " + JSON.stringify(data));
     getClient(index).sendUTF(JSON.stringify(data));
 }
 
@@ -42,11 +41,9 @@ function SendDataAll(index, data, exp) {
     for (var i = 0; i < clients.length; i++) {
         if (exp != true) {
             SendData(i, data);
+        } else if (i != index) {
+            SendData(i, data);
         }
-		else if ( i != index)
-		{
-		    SendData(i, data);
-		}
     }
 }
 ws.on('request', function(request) {
