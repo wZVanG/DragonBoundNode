@@ -24,9 +24,9 @@ function User(id, session, index, a) {
 		this.country = a.country;
 		this.flowers = a.flowers;
 		this.position = a.position;
-		this.is_master = a.is_master;
-		this.is_ready = a.is_ready;
-		this.is_bot = a.is_bot;
+		this.is_master = 0;
+		this.is_ready = 0;
+		this.is_bot = 0;
 		this.mobile = a.mobile;
 		this.head = a.head;
 		this.body = a.body;
@@ -37,7 +37,7 @@ function User(id, session, index, a) {
 		this.event1 = a.event1;
 		this.event2 = a.event2;
 		
-		this.guild = a.guild;
+		this.guild = a.guild == "0" ? 0 : a.guild;
 		this.guild_job = a.guild_job;
 		
 		this.relationship_status = a.relationship_status;
@@ -48,6 +48,8 @@ function User(id, session, index, a) {
 		this.relationship_with_gender = a.relationship_with_gender;
 		
 		this.avatars = [this.head, this.body, this.eyes, this.flag, this.foreground, this.background];
+		
+		this.room_id = -1;
 }
 
 
@@ -60,8 +62,12 @@ User.prototype.GetPlayerInfo = function() {
         return data;
 }
 
-User.prototype.GetAvatars = function() {
-        var data = [];
+User.prototype.UpdateAvatars = function() {
+        this.avatars = [this.head, this.body, this.eyes, this.flag, this.foreground, this.background];
+}
+
+User.prototype.UpdateRoomNumber = function(id) {
+		this.room_number = id;
 }
 
 module.exports = User;

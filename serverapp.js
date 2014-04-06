@@ -34,6 +34,7 @@ function SetHandler(a, b) {
 }
 
 function SendData(index, data) {
+	console.log("send: " + JSON.stringify(data));
     getClient(index).sendUTF(JSON.stringify(data));
 }
 
@@ -68,7 +69,7 @@ ws.on('request', function(request) {
             if (receive_handlers[op]) {
                 receive_handlers[op].apply(null, [index, b]);
             } else {
-                error_handler && error_handler("No handler for op-code: " + op + " at packet: " + b);
+                error_handler && error_handler("No handler for op-code: " + op + " at packet: " + JSON.stringify(b));
             }
         }
     });
