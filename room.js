@@ -145,7 +145,7 @@ function RemoveSlot(posSlot) {
                 var px = GetPosT(TeamLeav, x, x, true);
                 var pnp = GetPosT(TeamLeav, np, np, true);
                 //set new
-                console.log("px: " + px + " png: " + pnp);
+                //console.log("px: " + px + " png: " + pnp);
                 var us = GetUserPos(pnp);
                 if (us) {
                     us.position = px;
@@ -171,7 +171,7 @@ Room.prototype.NewMaster = function() {
         }
     }
     if (foun) {
-        Users.forEach(function(us) {
+        Users.forEach(function(us){
             if (us.position == pos) {
                 us.is_master = 1;
                 console.log("New Master Found!");
@@ -184,7 +184,7 @@ Room.prototype.NewMaster = function() {
 }
 
 function GetUserPos(pos) {
-    Users.forEach(function(us) {
+    Users.forEach(function(us){
         if (us.position == pos) {
             return us;
         }
