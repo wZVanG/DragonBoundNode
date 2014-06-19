@@ -19,8 +19,8 @@ MySql.prototype.Connect = function() {
             }
         });
     }
-}
-MySql.prototype.Querry = function(sql, callback) {
+};
+MySql.prototype.Query = function(sql, callback) {
     _conn.query(sql, function(error, result, fields) {
         if (error) {
             console.log("MySql: " + error);
@@ -28,5 +28,14 @@ MySql.prototype.Querry = function(sql, callback) {
             callback(result);
         }
     });
-}
+};
+
+
+MySql.prototype.getUserData = function(id, callback){
+    var qr = 'SELECT * FROM users u, relationship r, guild_list g, avatars a WHERE u.user_id = ' + id + ' AND r.user_id = u.user_id AND a.user_id = u.user_id AND g.user_id = u.user_id';
+    this.Query(qr, function(res){
+        return callback(res[0]);
+    });
+};
+
 module.exports = MySql;

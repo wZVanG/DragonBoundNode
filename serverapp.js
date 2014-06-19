@@ -51,6 +51,7 @@ ws.on('request', function(request) {
     var connection = request.accept(null, request.origin);
     var index = clients.push(connection) - 1;
     connected_handler && connected_handler(index)
+    var self = this;
     connection.on('message', function(a) {
         try {
             var b = JSON.parse(a.utf8Data)

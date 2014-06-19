@@ -1,9 +1,7 @@
 var OPCODE = require("./define.js");
 
-function User(id, session, index, a) {
+function User(id, a) {
     this.id = id;
-    this.session = session;
-    this.index = index;
     // if is valid user
     this.user_id = a.user_id;
     this.location_type = a.location_type;
@@ -50,8 +48,8 @@ function User(id, session, index, a) {
 User.prototype.GetGameID = function() {
     return this.game_id;
 }
-User.prototype.GetPlayerInfo = function() {
-    var data = [OPCODE.SERVER.my_player_info, [this.user_id, this.location_type, this.room_number, this.game_id, this.rank, this.gp, this.gold, this.cash, this.gender, this.un_lock, this.head, this.body, this.eyes, this.flag, this.background, this.foreground, this.event1, this.event2, this.photo_url, this.guild, this.guild_job, this.name_changes, this.power_user, this.tournament, this.plus10gp, this.mobile_fox, this.country, this.flowers, this.relationship_status, this.relationship_with_id, this.relationship_with_rank, this.relationship_with_photo, this.relationship_with_name, this.relationship_with_gender]];
+User.prototype.getPlayerInfo = function() {
+    var data = [this.user_id, this.location_type, this.room_number, this.game_id, this.rank, this.gp, this.gold, this.cash, this.gender, this.un_lock, this.head, this.body, this.eyes, this.flag, this.background, this.foreground, this.event1, this.event2, this.photo_url, this.guild, this.guild_job, this.name_changes, this.power_user, this.tournament, this.plus10gp, this.mobile_fox, this.country, this.flowers, this.relationship_status, this.relationship_with_id, this.relationship_with_rank, this.relationship_with_photo, this.relationship_with_name, this.relationship_with_gender];
     return data;
 }
 User.prototype.UpdateAvatars = function() {
