@@ -108,6 +108,25 @@ ws.on('request', function(request) {
                 self.chat_response(msj, type);
                 break;
             }
+            case OPCODE.CLIENT.change_name : {
+                var name = data[1];
+                self.client.user.game_id = name;
+                self.my_player_info_response();
+                self.channel_players_response();
+            }
+            case OPCODE.CLIENT.tab : {
+                break;
+            }
+            case OPCODE.CLIENT.refresh_friends : {
+                break;
+            }
+            case OPCODE.CLIENT.refresh_guildies : {
+                break;
+            }
+            default : {
+                console.log("unk-op: " + opcode);
+                break;
+            }
         }
     };
 
