@@ -32,7 +32,6 @@ ws.on('request', function(request) {
     self.Send = function(data){
         self.client.sendUTF(JSON.stringify(data));
     };
-<<<<<<< HEAD
     self.broadcast = function(data){
         ws.broadcastUTF(JSON.stringify(data));
     };
@@ -47,14 +46,13 @@ ws.on('request', function(request) {
         var data = [
             OPCODE.SERVER.login_avatars
         ];
-=======
+    };
     self.login_profile_response = function(){
         var data = [OPCODE.SERVER.login_profile];
         self.Send(data);
     };
     self.login_avatars_response = function(){
         var data = [OPCODE.SERVER.login_avatars];
->>>>>>> 202196b01efab8e4c42cd8785f75fd306811236a
         self.Send(data);
     };
     self.my_player_info_response = function(){
@@ -64,7 +62,6 @@ ws.on('request', function(request) {
         ];
         self.Send(data);
     };
-<<<<<<< HEAD
     self.chat_response = function(msj, type){
         var data = [
             OPCODE.SERVER.chat,
@@ -92,8 +89,6 @@ ws.on('request', function(request) {
         self.broadcast(data);
     };
     /************************************************/
-=======
->>>>>>> 202196b01efab8e4c42cd8785f75fd306811236a
     self.error_handler = function(m){
         console.log(m);
     };
@@ -107,7 +102,6 @@ ws.on('request', function(request) {
                 self.client.session = data[3];
                 MySql.getUserData(self.client.id, function(res){
                     self.client.user = new User(self.client.id, res);
-<<<<<<< HEAD
                     self.login_profile_response();
                     self.login_avatars_response();
                     self.my_player_info_response();
@@ -140,14 +134,6 @@ ws.on('request', function(request) {
                 console.log("unk-op: " + opcode);
                 break;
             }
-=======
-                    self.login_profile_response()
-                    self.login_avatars_response();
-                    self.my_player_info_response();
-                });
-                break;
-            }
->>>>>>> 202196b01efab8e4c42cd8785f75fd306811236a
         }
     };
 
