@@ -126,7 +126,7 @@ e[OPCODE.CLIENT.chat] = function(index, data) {
     var ur = Users[index];
     var msj = htmlEntities(data[0]);
     var type = data[1];
-    var datas = [OPCODE.SERVER.chat, msj, ur.GetGameID(), type];
+    var datas = [OPCODE.SERVER.chat, msj, ur.getGameID(), type];
     if (ur.rank == 24) {
         datas[3] = 5;
     }

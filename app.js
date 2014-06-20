@@ -32,13 +32,20 @@ ws.on('request', function(request) {
     self.Send = function(data){
         self.client.sendUTF(JSON.stringify(data));
     };
+    self.broadcast = function(data){
+        ws.broadcastUTF(JSON.stringify(data));
+    };
     /************************************************/
     self.login_profile_response = function(){
-        var data = [OPCODE.SERVER.login_profile];
+        var data = [
+            OPCODE.SERVER.login_profile
+        ];
         self.Send(data);
     };
     self.login_avatars_response = function(){
-        var data = [OPCODE.SERVER.login_avatars];
+        var data = [
+            OPCODE.SERVER.login_avatars
+        ];
         self.Send(data);
     };
     self.my_player_info_response = function(){
@@ -47,6 +54,32 @@ ws.on('request', function(request) {
             self.client.user.getPlayerInfo()
         ];
         self.Send(data);
+    };
+    self.chat_response = function(msj, type){
+        var data = [
+            OPCODE.SERVER.chat,
+            msj,
+            self.client.user.game_id,
+            self.client.user.rank == 24 ? 5 : type
+        ];
+        if (self.client.user.guild != 0) {
+            data[4] = self.client.user.guild;
+        }
+        self.broadcast(data);
+    };
+    self.channel_players_response = function(){
+        var data = [
+            OPCODE.SERVER.channel_players,
+            []
+        ];
+        var i = 0;
+        clients.forEach(function(us) {
+            data[1][i++] = us.user.id;
+            data[1][i++] = us.user.game_id;
+            data[1][i++] = us.user.rank;
+            data[1][i++] = us.user.guild == "0" ? 0 : us.user.guild;
+        });
+        self.broadcast(data);
     };
     /************************************************/
     self.error_handler = function(m){
@@ -65,7 +98,14 @@ ws.on('request', function(request) {
                     self.login_profile_response();
                     self.login_avatars_response();
                     self.my_player_info_response();
+                    self.channel_players_response();
                 });
+                break;
+            }
+            case OPCODE.CLIENT.chat : {
+                var msj = data[1];
+                var type = data[2];
+                self.chat_response(msj, type);
                 break;
             }
         }
