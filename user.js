@@ -1,6 +1,13 @@
+<<<<<<< HEAD
 function User(id, a) {
     var self = this;
     self.id = id;
+=======
+var OPCODE = require("./define.js");
+
+function User(id, a) {
+    this.id = id;
+>>>>>>> 202196b01efab8e4c42cd8785f75fd306811236a
     // if is valid user
     self.user_id = a.user_id;
     self.location_type = a.location_type;
@@ -46,6 +53,7 @@ function User(id, a) {
 }
 User.prototype.getGameId = function() {
     return this.game_id;
+<<<<<<< HEAD
 };
 User.prototype.getPlayerInfo = function() {
     var data = [
@@ -84,6 +92,11 @@ User.prototype.getPlayerInfo = function() {
         this.relationship_with_name,
         this.relationship_with_gender
     ];
+=======
+}
+User.prototype.getPlayerInfo = function() {
+    var data = [this.user_id, this.location_type, this.room_number, this.game_id, this.rank, this.gp, this.gold, this.cash, this.gender, this.un_lock, this.head, this.body, this.eyes, this.flag, this.background, this.foreground, this.event1, this.event2, this.photo_url, this.guild, this.guild_job, this.name_changes, this.power_user, this.tournament, this.plus10gp, this.mobile_fox, this.country, this.flowers, this.relationship_status, this.relationship_with_id, this.relationship_with_rank, this.relationship_with_photo, this.relationship_with_name, this.relationship_with_gender];
+>>>>>>> 202196b01efab8e4c42cd8785f75fd306811236a
     return data;
 };
 User.prototype.UpdateAvatars = function() {
