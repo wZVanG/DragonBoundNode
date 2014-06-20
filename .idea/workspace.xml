@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="34bbd78a-5a41-4c27-9118-dd4038bf1e68" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.js" afterPath="$PROJECT_DIR$/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/user.js" afterPath="$PROJECT_DIR$/user.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="DragonBoundNode.iws" />
@@ -61,8 +58,8 @@
       <file leaf-file-name="app.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.44204018" vertical-offset="1363" max-vertical-offset="2329">
-              <caret line="99" column="51" selection-start-line="99" selection-start-column="51" selection-end-line="99" selection-end-column="51" />
+            <state vertical-scroll-proportion="0.4683153" vertical-offset="1363" max-vertical-offset="2329">
+              <caret line="100" column="52" selection-start-line="100" selection-start-column="52" selection-end-line="100" selection-end-column="52" />
               <folding>
                 <element signature="e#0#44#0" expanded="false" />
               </folding>
@@ -206,12 +203,16 @@
       <created>1403227116673</created>
       <updated>1403227116673</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="[Base] Up">
+      <created>1403229912385</created>
+      <updated>1403229912385</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1040" height="784" extended-state="6" />
-    <editor active="false" />
+    <frame x="-8" y="-8" width="1040" height="784" extended-state="7" />
+    <editor active="true" />
     <layout>
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -250,7 +251,8 @@
       <TodoPanelSettings />
     </option>
     <MESSAGE value="[Base] Up&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="[Base] Up&#10;" />
+    <MESSAGE value="[Base] Up" />
+    <option name="LAST_COMMIT_MESSAGE" value="[Base] Up" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -374,8 +376,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.44204018" vertical-offset="1363" max-vertical-offset="2329">
-          <caret line="99" column="51" selection-start-line="99" selection-start-column="51" selection-end-line="99" selection-end-column="51" />
+        <state vertical-scroll-proportion="0.4683153" vertical-offset="1363" max-vertical-offset="2329">
+          <caret line="100" column="52" selection-start-line="100" selection-start-column="52" selection-end-line="100" selection-end-column="52" />
           <folding>
             <element signature="e#0#44#0" expanded="false" />
           </folding>
