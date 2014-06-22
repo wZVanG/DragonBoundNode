@@ -1,0 +1,6 @@
+{
+    "port": 9002,
+    "debug_level": "debug",
+    "nb_players_per_server": 20,
+    "nb_servers": 1
+}

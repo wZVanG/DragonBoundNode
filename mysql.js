@@ -7,7 +7,6 @@ var _conn = dbsv.createConnection({
 });
 
 function MySql() {
-    console.log('New MySql()');
 }
 MySql.prototype.Connect = function() {
     if (_conn) {

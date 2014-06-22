@@ -1,4 +1,4 @@
-var OPCODE = require("./define.js");
+var OPCODE = require("./../define.js");
 var GAME_MODE_NORMAL = 0,
     GAME_MODE_BOSS = 1,
     GAME_MODE_SAME = 2;

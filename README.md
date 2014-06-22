@@ -1,9 +1,29 @@
 DragonBoundNode
 ===============
 
-Test Node Server WebSocket
+#### If you want to help me :)
+  [![ScreenShot](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](http://tinyurl.com/DonationX)
 
-Node: http://nodejs.org/
-WebSocket: https://github.com/Worlize/WebSocket-Node
 
-I accept Pull Rq!
+## Getting started
+Install nodejs:
+```sh
+http://nodejs.org/
+```
+
+Install modules with npm:
+```sh
+$ npm install websocket
+```
+```sh
+$ npm install mysql
+```
+```sh
+$ npm install underscore
+```
+```sh
+$ npm install log
+```
+```sh
+$ npm install sanitizer
+```
