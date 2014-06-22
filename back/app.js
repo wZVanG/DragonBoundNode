@@ -8,7 +8,7 @@ var http = require('http');
 var OPCODE = require("./define.js");
 var User = require('./user.js');
 
-var MySql = require("./mysql.js");
+var MySql = require("./../mysql.js");
 var MySql = new MySql();
 
 var clients = [];
