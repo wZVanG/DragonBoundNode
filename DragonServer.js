@@ -8,12 +8,11 @@ var cls = require("./lib/class"),
     Character = require('./character'),
     Player = require('./player'),
     Messages = require('./message'),
-    //Properties = require("./properties"),
-    Utils = require("./utils");
+    Utils = require("./utils"),
     Types = require("./gametypes");
 
 module.exports = DragonServer = cls.Class.extend({
-    init: function(id, maxPlayers, websocketServer) {
+    init: function (id, maxPlayers, websocketServer) {
         var self = this;
         this.id = id;
         this.maxPlayers = maxPlayers;
@@ -27,163 +26,163 @@ module.exports = DragonServer = cls.Class.extend({
         };
         this.outgoingQueues = {};
         this.playerCount = 0;
-        this.onPlayerConnect(function(player) {
+        this.onPlayerConnect(function (player) {
         });
-        this.onPlayerEnter(function(player) {
+        this.onPlayerEnter(function (player) {
 
-            log.info(player.game_id + " has joined "+ self.id);
-            if(!player.hasEnteredGame) {
+            log.info(player.game_id + " has joined " + self.id);
+            if (!player.hasEnteredGame) {
                 self.incrementPlayerCount();
             }
-            player.onBroadcast(function(message, ignoreSelf) {
+            player.onBroadcast(function (message, ignoreSelf) {
                 self.pushToAdjacentGroups(player.group, message, ignoreSelf ? player.id : null);
             });
-            player.onExit(function() {
+            player.onExit(function () {
                 log.info(player.game_id + " has left the game.");
                 self.removePlayer(player);
                 self.decrementPlayerCount();
-                if(self.removed_callback) {
+                if (self.removed_callback) {
                     self.removed_callback();
                 }
             });
-            if(self.added_callback) {
+            if (self.added_callback) {
                 self.added_callback();
             }
         });
-        this.onChannelPlayer(function(){
+        this.onChannelPlayer(function () {
             self.updateChannelPlayer();
         });
     },
 
-    run: function() {
+    run: function () {
         var self = this;
         var regenCount = this.ups * 2;
         var updateCount = 0;
-        setInterval(function() {
+        setInterval(function () {
             //self.processGroups();
             self.processQueues();
-            if(updateCount < regenCount) {
+            if (updateCount < regenCount) {
                 updateCount += 1;
             } else {
-                if(self.regen_callback) {
+                if (self.regen_callback) {
                     self.regen_callback();
                 }
                 updateCount = 0;
             }
         }, 1000 / this.ups);
 
-        log.info(""+this.id+" created (capacity: "+this.maxPlayers+" players).");
+        log.info("" + this.id + " created (capacity: " + this.maxPlayers + " players).");
     },
 
-    nInit: function(callback) {
+    nInit: function (callback) {
         this.init_callback = callback;
     },
 
-    onPlayerConnect: function(callback) {
+    onPlayerConnect: function (callback) {
         this.connect_callback = callback;
     },
 
-    onPlayerEnter: function(callback) {
+    onPlayerEnter: function (callback) {
         this.enter_callback = callback;
     },
 
-    onChannelPlayer: function(callback) {
+    onChannelPlayer: function (callback) {
         this.channel_player_update = callback;
     },
 
-    addPlayer: function(player) {
+    addPlayer: function (player) {
         this.players[player.id] = player;
         this.outgoingQueues[player.id] = [];
         this.groups[1].players[player.id] = player;
         log.info("Added player : " + player.id);
         this.updateChannelPlayer();
     },
-    removePlayer: function(player) {
+    removePlayer: function (player) {
         delete this.groups[1].players[player.id];
         delete this.players[player.id];
         delete this.outgoingQueues[player.id];
     },
 
-    onPlayerAdded: function(callback) {
+    onPlayerAdded: function (callback) {
         this.added_callback = callback;
     },
 
-    onPlayerRemoved: function(callback) {
+    onPlayerRemoved: function (callback) {
         this.removed_callback = callback;
     },
 
-    onRegenTick: function(callback) {
+    onRegenTick: function (callback) {
         this.regen_callback = callback;
     },
-    pushToPlayer: function(player, message) {
-        if(player && player.id in this.outgoingQueues) {
+    pushToPlayer: function (player, message) {
+        if (player && player.id in this.outgoingQueues) {
             this.outgoingQueues[player.id].push(message.serialize());
         } else {
             log.error("pushToPlayer: player was undefined");
         }
     },
-    pushToGroup: function(groupId, message, ignoredPlayer) {
+    pushToGroup: function (groupId, message, ignoredPlayer) {
         var self = this,
             group = this.groups[groupId];
 
-        if(group) {
-            _.each(group.players, function(playerId) {
-                if(playerId != ignoredPlayer) {
+        if (group) {
+            _.each(group.players, function (playerId) {
+                if (playerId != ignoredPlayer) {
                     self.pushToPlayer(playerId, message);
                 }
             });
         } else {
-            log.error("groupId: "+groupId+" is not a valid group");
+            log.error("groupId: " + groupId + " is not a valid group");
         }
     },
 
-    pushToAdjacentGroups: function(groupId, message, ignoredPlayer) {
+    pushToAdjacentGroups: function (groupId, message, ignoredPlayer) {
         var self = this;
         self.pushToGroup(groupId, message, ignoredPlayer);
     },
 
-    pushToPreviousGroups: function(player, message) {
+    pushToPreviousGroups: function (player, message) {
         var self = this;
-        _.each(player.recentlyLeftGroups, function(id) {
+        _.each(player.recentlyLeftGroups, function (id) {
             self.pushToGroup(id, message);
         });
         player.recentlyLeftGroups = [];
     },
 
-    pushBroadcast: function(message, ignoredPlayer) {
-        for(var id in this.outgoingQueues) {
-            if(id != ignoredPlayer) {
+    pushBroadcast: function (message, ignoredPlayer) {
+        for (var id in this.outgoingQueues) {
+            if (id != ignoredPlayer) {
                 this.outgoingQueues[id].push(message.serialize());
             }
         }
     },
-    processQueues: function() {
+    processQueues: function () {
         var self = this,
             connection;
 
-        for(var id in this.outgoingQueues) {
-            if(this.outgoingQueues[id].length > 0) {
+        for (var id in this.outgoingQueues) {
+            if (this.outgoingQueues[id].length > 0) {
                 connection = this.server.getConnection(id);
-                for(var dt in this.outgoingQueues[id]) {
+                for (var dt in this.outgoingQueues[id]) {
                     connection.send(this.outgoingQueues[id][dt]);
                 }
                 this.outgoingQueues[id] = [];
             }
         }
     },
-    setPlayerCount: function(count) {
+    setPlayerCount: function (count) {
         this.playerCount = count;
     },
-    incrementPlayerCount: function() {
+    incrementPlayerCount: function () {
         this.setPlayerCount(this.playerCount + 1);
     },
 
-    decrementPlayerCount: function() {
-        if(this.playerCount > 0) {
+    decrementPlayerCount: function () {
+        if (this.playerCount > 0) {
             this.setPlayerCount(this.playerCount - 1);
         }
     },
-    updateChannelPlayer: function() {
+    updateChannelPlayer: function () {
         this.pushBroadcast(new Messages.Chanel_Players(this.players));
     }
 });
