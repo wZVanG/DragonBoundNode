@@ -36,7 +36,6 @@ function main(config) {
         dserver = _.detect(DServers, function(dserver) {
             return dserver.playerCount < config.nb_players_per_server;
         });
-        dserver.updatePopulation();
         connect();
     });
     server.onError(function () {
@@ -48,13 +47,9 @@ function main(config) {
         dserver.run();
         DServers.push(dserver);
     });
-
-    /*server.onRequestStatus(function () {
-        return JSON.stringify(getWorldDistribution(DServers));
-    });*/
-    /*process.on('uncaughtException', function (e) {
+    process.on('uncaughtException', function (e) {
         log.error('uncaughtException: ' + e);
-    });*/
+    });
 }
 function getConfigFile(path, callback) {
     fs.readFile(path, 'utf8', function(err, json_string) {

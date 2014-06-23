@@ -25,10 +25,8 @@ module.exports = DragonServer = cls.Class.extend({
                 players: {}
             }
         };
-
         this.outgoingQueues = {};
         this.playerCount = 0;
-
         this.onPlayerConnect(function(player) {
         });
         this.onPlayerEnter(function(player) {
@@ -37,25 +35,23 @@ module.exports = DragonServer = cls.Class.extend({
             if(!player.hasEnteredGame) {
                 self.incrementPlayerCount();
             }
-
             player.onBroadcast(function(message, ignoreSelf) {
                 self.pushToAdjacentGroups(player.group, message, ignoreSelf ? player.id : null);
             });
-
             player.onExit(function() {
                 log.info(player.game_id + " has left the game.");
                 self.removePlayer(player);
                 self.decrementPlayerCount();
-
                 if(self.removed_callback) {
                     self.removed_callback();
                 }
             });
-
             if(self.added_callback) {
                 self.added_callback();
             }
-
+        });
+        this.onChannelPlayer(function(){
+            self.updateChannelPlayer();
         });
     },
 
@@ -66,7 +62,6 @@ module.exports = DragonServer = cls.Class.extend({
         setInterval(function() {
             //self.processGroups();
             self.processQueues();
-
             if(updateCount < regenCount) {
                 updateCount += 1;
             } else {
@@ -92,11 +87,16 @@ module.exports = DragonServer = cls.Class.extend({
         this.enter_callback = callback;
     },
 
+    onChannelPlayer: function(callback) {
+        this.channel_player_update = callback;
+    },
+
     addPlayer: function(player) {
         this.players[player.id] = player;
         this.outgoingQueues[player.id] = [];
         this.groups[1].players[player.id] = player;
         log.info("Added player : " + player.id);
+        this.updateChannelPlayer();
     },
     removePlayer: function(player) {
         delete this.groups[1].players[player.id];
@@ -183,7 +183,7 @@ module.exports = DragonServer = cls.Class.extend({
             this.setPlayerCount(this.playerCount - 1);
         }
     },
-    updatePopulation: function(totalPlayers) {
-        //this.pushBroadcast(new Messages.Population(this.playerCount, totalPlayers ? totalPlayers : this.playerCount));
+    updateChannelPlayer: function() {
+        this.pushBroadcast(new Messages.Chanel_Players(this.players));
     }
 });

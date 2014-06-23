@@ -19,11 +19,12 @@ module.exports = Player = Character.extend({
 
         this.connection.listen(function(message) {
             var action = parseInt(message[0]);
-            log.debug("Received: "+message);
+            log.debug("Opcode: " +Types.getMessageTypeAsString(action)+" Received: "+message);
 
             if(!check(message)) {
-                self.connection.close("Invalid "+Types.getMessageTypeAsString(action)+" message format: "+message);
-                return;
+                //self.connection.close("Invalid "+Types.getMessageTypeAsString(action)+" message format: "+message);
+                //return;
+                log.debug("Invalid "+Types.getMessageTypeAsString(action)+" message format: "+message);
             }
             if(!self.hasEnteredGame && action == Types.Messages.CLIENT.login){
                 self.ver = message[1];
@@ -31,9 +32,9 @@ module.exports = Player = Character.extend({
                 self.session = message[3];
                 MySql.getUserData(self.idg, function(res){
                     self.player_data(res);
-                    self.login_profile();
-                    self.login_avatars();
-                    self.my_player_info();
+                    self.send(new Messages.Player_login_profile(self));
+                    self.send(new Messages.Player_login_avatars(self));
+                    self.send(new Messages.Player_info(self));
                     self.server.addPlayer(self);
                     self.server.enter_callback(self);
                     self.hasEnteredGame = true;
@@ -45,6 +46,11 @@ module.exports = Player = Character.extend({
                     log.debug("msg: " + msg);
                     self.broadcast(new Messages.Chat(self, msg, type), false);
                 }
+            }else if(self.hasEnteredGame && action == Types.Messages.CLIENT.change_info){
+            }else if(self.hasEnteredGame && action == Types.Messages.CLIENT.change_name){
+                self.game_id = Utils.sanitize(message[1]);
+                self.send(new Messages.Player_info(self));
+                self.server.channel_player_update();
             }
         });
         this.connection.onClose(function() {
@@ -54,7 +60,15 @@ module.exports = Player = Character.extend({
         });
     },
     send: function(message) {
-        this.connection.send(message);
+        try{
+            if(message.constructor == Array){
+                this.connection.send(message);
+            }else{
+                this.connection.send(message.serialize());
+            }
+        }catch (e){
+            log.debug(e);
+        }
     },
 
     broadcast: function(message, ignoreSelf) {
@@ -120,55 +134,5 @@ module.exports = Player = Character.extend({
         self.relationship_with_gender = a.relationship_with_gender;
         self.avatars = [self.head, self.body, self.eyes, self.flag, self.foreground, self.background];
         self.room_id = -1;
-    },
-
-    player_info : function(){
-        var data = [
-            this.user_id,
-            this.location_type,
-            this.room_number,
-            this.game_id,
-            this.rank,
-            this.gp,
-            this.gold,
-            this.cash,
-            this.gender,
-            this.un_lock,
-            this.head,
-            this.body,
-            this.eyes,
-            this.flag,
-            this.background,
-            this.foreground,
-            this.event1,
-            this.event2,
-            this.photo_url,
-            this.guild,
-            this.guild_job,
-            this.name_changes,
-            this.power_user,
-            this.tournament,
-            this.plus10gp,
-            this.mobile_fox,
-            this.country,
-            this.flowers,
-            this.relationship_status,
-            this.relationship_with_id,
-            this.relationship_with_rank,
-            this.relationship_with_photo,
-            this.relationship_with_name,
-            this.relationship_with_gender
-        ];
-        return data;
-    },
-
-    login_profile : function(){
-        this.send([Types.Messages.SERVER.login_profile]);
-    },
-    login_avatars : function(){
-        this.send([Types.Messages.SERVER.login_avatars]);
-    },
-    my_player_info : function(){
-        this.send([Types.Messages.SERVER.my_player_info,this.player_info()]);
     }
 });
