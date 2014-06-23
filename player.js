@@ -9,7 +9,7 @@ var cls = require("./lib/class"),
     Types = require("./gametypes");
 
 module.exports = Player = Character.extend({
-    init: function(connection, dserver) {
+    init: function (connection, dserver) {
         var self = this;
         this.server = dserver;
         this.connection = connection;
@@ -17,20 +17,20 @@ module.exports = Player = Character.extend({
         this.group = 1;
         this._super(this.connection.id, "player");
 
-        this.connection.listen(function(message) {
+        this.connection.listen(function (message) {
             var action = parseInt(message[0]);
-            log.debug("Opcode: " +Types.getMessageTypeAsString(action)+" Received: "+message);
+            log.debug("Opcode: " + Types.getMessageTypeAsString(action) + " Received: " + message);
 
-            if(!check(message)) {
+            if (!check(message)) {
                 //self.connection.close("Invalid "+Types.getMessageTypeAsString(action)+" message format: "+message);
                 //return;
-                log.debug("Invalid "+Types.getMessageTypeAsString(action)+" message format: "+message);
+                log.debug("Invalid " + Types.getMessageTypeAsString(action) + " message format: " + message);
             }
-            if(!self.hasEnteredGame && action == Types.Messages.CLIENT.login){
+            if (!self.hasEnteredGame && action == Types.Messages.CLIENT.login) {
                 self.ver = message[1];
-                self.idg  = message[2];
+                self.idg = message[2];
                 self.session = message[3];
-                MySql.getUserData(self.idg, function(res){
+                MySql.getUserData(self.idg, function (res) {
                     self.player_data(res);
                     self.send(new Messages.Player_login_profile(self));
                     self.send(new Messages.Player_login_avatars(self));
@@ -39,59 +39,67 @@ module.exports = Player = Character.extend({
                     self.server.enter_callback(self);
                     self.hasEnteredGame = true;
                 });
-            }else if(self.hasEnteredGame && action == Types.Messages.CLIENT.chat){
+            } else if (self.hasEnteredGame && action == Types.Messages.CLIENT.chat) {
                 var msg = Utils.sanitize(message[1]);
                 var type = message[2];
-                if(msg && msg !== "") {
+                if (msg && msg !== "") {
                     log.debug("msg: " + msg);
                     self.broadcast(new Messages.Chat(self, msg, type), false);
                 }
-            }else if(self.hasEnteredGame && action == Types.Messages.CLIENT.change_info){
-            }else if(self.hasEnteredGame && action == Types.Messages.CLIENT.change_name){
+            } else if (self.hasEnteredGame && action == Types.Messages.CLIENT.change_info) {
+            } else if (self.hasEnteredGame && action == Types.Messages.CLIENT.change_name) {
                 self.game_id = Utils.sanitize(message[1]);
                 self.send(new Messages.Player_info(self));
                 self.server.channel_player_update();
+            } else if (self.hasEnteredGame && action == Types.Messages.CLIENT.tab) {
+                var d = message[1];
+                if (d == 0){
+                    self.server.channel_player_update(); // fm
+                } else if (d == 2){
+                    //guild
+                }
+            } else if (self.hasEnteredGame && action == Types.Messages.CLIENT.refresh_friends) {
             }
         });
-        this.connection.onClose(function() {
-            if(self.exit_callback) {
+        this.connection.onClose(function () {
+            if (self.exit_callback) {
                 self.exit_callback();
             }
         });
     },
-    send: function(message) {
-        try{
-            if(message.constructor == Array){
+    send: function (message) {
+        try {
+            if (message.constructor == Array) {
                 this.connection.send(message);
-            }else{
+            } else {
                 this.connection.send(message.serialize());
             }
-        }catch (e){
+        } catch (e) {
             log.debug(e);
         }
     },
 
-    broadcast: function(message, ignoreSelf) {
-        if(this.broadcast_callback) {
+    broadcast: function (message, ignoreSelf) {
+        if (this.broadcast_callback) {
             this.broadcast_callback(message, ignoreSelf === undefined ? true : ignoreSelf);
         }
     },
-    onExit: function(callback) {
+    onExit: function (callback) {
         this.exit_callback = callback;
     },
-    onMessage: function(callback) {
+    onMessage: function (callback) {
         this.message_callback = callback;
     },
 
-    onBroadcast: function(callback) {
+    onBroadcast: function (callback) {
         this.broadcast_callback = callback;
     },
 
-    onBroadcastToZone: function(callback) {
+    onBroadcastToZone: function (callback) {
         this.broadcastzone_callback = callback;
     },
 
-    player_data : function(a){
+    player_data: function (a) {
         var self = this;
         self.user_id = a.user_id;
         self.location_type = a.location_type;

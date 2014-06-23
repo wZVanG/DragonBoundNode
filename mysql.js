@@ -12,9 +12,9 @@ MySql.prototype.Connect = function() {
     if (_conn) {
         _conn.connect(function(err) {
             if (err) {
-                console.log('MySql: ' + err);
+                log.debug('MySql: ' + err);
             } else {
-                console.log("MySql: Connect!");
+                log.debug("MySql: Connect!");
             }
         });
     }
@@ -22,7 +22,7 @@ MySql.prototype.Connect = function() {
 MySql.prototype.Query = function(sql, callback) {
     _conn.query(sql, function(error, result, fields) {
         if (error) {
-            console.log("MySql: " + error);
+            log.debug("MySql: " + error);
         } else {
             callback(result);
         }
