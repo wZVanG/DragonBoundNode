@@ -27,3 +27,9 @@ $ npm install log
 ```sh
 $ npm install sanitizer
 ```
+```sh
+$ npm install express
+```
+```sh
+$ npm install logfmt
+```
