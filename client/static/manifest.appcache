@@ -1,8 +1,16 @@
 CACHE MANIFEST
 
 # code aa
-js/base.js?1
-js/game.js?2
+js/soundmanager2-jsmin.js
+js/alertify.min.js
+js/socket.io.min.js
+js/jquery.plugins.js
+js/cryptojs.core-min.js
+js/jquery.tipsy.js
+js/jquery.tiny.js
+js/jquery.touch.js
+js/avatars.js?1
+js/game.js?8
 css/dragon.css?1
 css/jq.css?1
 
@@ -19,7 +27,6 @@ images/items2.png
 images/arrow.png
 css/images/ui-bg_flat_75_ffffff_40x100.png
 css/images/ui-icons_222222_256x240.png
-js/soundmanager2_flash9.swf
 images/ava/fh00011.png
 images/ava/fb00011.png
 

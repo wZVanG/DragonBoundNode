@@ -9,7 +9,6 @@
     <meta property="og:type" content="game" />
     <meta property="og:title" content="DragonBound - Next generation HTML5 online massive multi-player game!" />
     <meta property="og:description" content="Play with or against your friends from your browser anywhere for free. Shop for items to make you stronger. Unlock hidden characters, new game modes, and challenges. Meet new friends. Single player option too." />
-    <meta property="fb:app_id" content="123456" />
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -19,8 +18,18 @@
     <meta itemprop="name" content="DragonBound">
     <meta itemprop="description" content="Play with or against your friends from your browser anywhere for free. Shop for items to make you stronger. Unlock hidden characters, new game modes, and challenges. Meet new friends. Single player option too.">
     <meta itemprop="image" content="/static/images/icon2_200x200.png">
-	<script src="/static/js/base.js?1"></script>
-    <script src="/static/js/game.js?2"></script>
+	<script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+	<script src="/static/js/soundmanager2-jsmin.js"></script>
+	<script src="/static/js/alertify.min.js"></script>
+	<script src="/static/js/socket.io.min.js"></script>
+	<script src="/static/js/jquery.plugins.js"></script>
+    <script src="/static/js/avatars.js?1"></script>
+	<script src="/static/js/cryptojs.core-min.js"></script>
+	<script src="/static/js/jquery.tipsy.js"></script>
+	<script src="/static/js/jquery.tiny.js"></script
+    <script src="/static/js/jquery.touch.js"></script>
+    <script src="/static/js/game.js?8"></script>
     <link rel="stylesheet" href="/static/css/dragon.css?1" />
 	<link rel="stylesheet" href="/static/css/jq.css?1" />
     <style id="DragonTheme"></style>
@@ -35,7 +44,7 @@
     
     <h1 class="hide">
 <b>
-DragonBound - Next generation HTML5 online massive multi-player game!<br>
+DragonBoundNode - Next generation HTML5 online massive multi-player game!<br>
 Play DragonBound now, a Free Multiplayer Online HTML5 Game. Play with or meet new friends anywhere, no downloads. Collect items, new game modes, and challenges.<br>
 Play with or against your friends from your browser anywhere for free. Shop for items to make you stronger. Unlock hidden characters, new game modes, and challenges. Meet new friends. Single player option too.<br>
 Play, DragonBound, now, Free, Multiplayer, Online, HTML5, Game, friends, anywhere, no, downloads, items, modes, challenges, 2d shooter, advanced, vs, ai, computer, players, bbtank, ddtank, browser,
@@ -71,12 +80,6 @@ NO cheaters, NO download, NO hackers, NO installation, private source, public ga
         </div>
     </div>
     <div id="ShareWindow">
-        <div id="ShareToFacebook" class="ShareButton glow_button" title="Share to Facebook"></div>
-        <div id="ShareToTwitter" class="ShareButton glow_button" title="Share to Twitter"></div>
-        <div id="ShareToGoogle" class="ShareButton glow_button" title="Share to Google+"></div>
-        <div id="ShareToEmail" class="ShareButton glow_button" title="Share by Email"></div>
-        <div id="ShareToClipboard" class="ShareButton glow_button" title="Press Ctrl+C to Copy to Clipboard"></div>
-        <div id="ShareToNewTab" class="ShareButton glow_button" title="Open Link"></div>
         <input id="ShareURL" dir="ltr" value="" readonly />
         <div id="CopyToClipboardText">Ctrl+C to Copy</div>
         <div id="ShareWindowClose" class="buttonClose opacity_button"></div>
