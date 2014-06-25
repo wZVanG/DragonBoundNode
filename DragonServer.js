@@ -7,6 +7,7 @@ var cls = require("./lib/class"),
     Entity = require('./entity'),
     Character = require('./character'),
     Player = require('./player'),
+    Room = require('./room'),
     Messages = require('./message'),
     Utils = require("./utils"),
     Types = require("./gametypes");
@@ -15,10 +16,12 @@ module.exports = DragonServer = cls.Class.extend({
     init: function (id, maxPlayers, websocketServer) {
         var self = this;
         this.id = id;
+        this.players = {};
+        this.rooms = {};
+        this.roomscount = 0;
         this.maxPlayers = maxPlayers;
         this.server = websocketServer;
         this.ups = 50;
-        this.players = {};
         this.groups = {
             1: {
                 players: {}
@@ -26,10 +29,15 @@ module.exports = DragonServer = cls.Class.extend({
         };
         this.outgoingQueues = {};
         this.playerCount = 0;
+        this.trom1 = new Room('xd1', '1234', 2, 0, this);
+        this.rooms[this.trom1.id] = this.trom1;
+        this.trom2 = new Room('xd2', '1234', 2, 0, this);
+        this.rooms[this.trom2.id] = this.trom2;
+        this.trom3 = new Room('xd3', '1234', 2, 0, this);
+        this.rooms[this.trom3.id] = this.trom3;
         this.onPlayerConnect(function (player) {
         });
         this.onPlayerEnter(function (player) {
-
             log.info(player.game_id + " has joined " + self.id);
             if (!player.hasEnteredGame) {
                 self.incrementPlayerCount();
@@ -96,6 +104,7 @@ module.exports = DragonServer = cls.Class.extend({
         this.groups[1].players[player.id] = player;
         log.info("Added player : " + player.id);
         this.updateChannelPlayer();
+        this.updateRoomsList();
     },
     removePlayer: function (player) {
         delete this.groups[1].players[player.id];
@@ -182,7 +191,16 @@ module.exports = DragonServer = cls.Class.extend({
             this.setPlayerCount(this.playerCount - 1);
         }
     },
+    getRoomsCount: function () {
+        return this.roomscount;
+    },
+    incrementRoomsCount: function () {
+        this.roomscount++;
+    },
     updateChannelPlayer: function () {
         this.pushBroadcast(new Messages.Chanel_Players(this.players));
+    },
+    updateRoomsList: function () {
+        this.pushBroadcast(new Messages.Rooms_List(this.rooms));
     }
 });

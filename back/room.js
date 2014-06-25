@@ -73,7 +73,24 @@ Room.prototype.GetUsers = function() {
     return Users;
 }
 Room.prototype.GetState = function() {
-    var dat = [OPCODE.SERVER.room_state, [this.type, this.id, this.title, this.password, this.max_players, this.game_mode, this.map, this.avatar_on, this.max_wind, this.gp_rate, this.minimap, this.s1_disabled, this.tele_disabled, this.is_random_teams]];
+    var dat = [
+        OPCODE.SERVER.room_state,
+        [
+            this.type,
+            this.id,
+            this.title,
+            this.password,
+            this.max_players,
+            this.game_mode,
+            this.map,
+            this.avatar_on,
+            this.max_wind,
+            this.gp_rate,
+            this.minimap,
+            this.s1_disabled,
+            this.tele_disabled,
+            this.is_random_teams]
+    ];
     return dat;
 }
 Room.prototype.GetPlayers = function() {
@@ -105,7 +122,16 @@ Room.prototype.UpdateSlot = function(us) {
     return dat;
 }
 Room.prototype.toList = function() {
-    var tm = [this.id, this.title, Users.length, this.max_players, this.status, this.game_mode, this.lock, this.map, this.power_user];
+    var tm = [
+        this.id,
+        this.title,
+        Users.length,
+        this.max_players,
+        this.status,
+        this.game_mode,
+        this.lock,
+        this.map,
+        this.power_user];
     return tm;
 }
 Room.prototype.SetID = function(id) {

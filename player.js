@@ -6,7 +6,8 @@ var cls = require("./lib/class"),
     Utils = require("./utils"),
     check = require("./format").check,
     Messages = require("./message"),
-    Types = require("./gametypes");
+    Types = require("./gametypes"),
+    Room = require("./room");
 
 module.exports = Player = Character.extend({
     init: function (connection, dserver) {
@@ -15,6 +16,10 @@ module.exports = Player = Character.extend({
         this.connection = connection;
         this.hasEnteredGame = false;
         this.group = 1;
+        this.room = null;
+        this.owner = 0;
+        this.position = 0;
+
         this._super(this.connection.id, "player");
 
         this.connection.listen(function (message) {
@@ -59,6 +64,15 @@ module.exports = Player = Character.extend({
                     //guild
                 }
             } else if (self.hasEnteredGame && action == Types.Messages.CLIENT.refresh_friends) {
+            } else if (self.hasEnteredGame && action == Types.Messages.CLIENT.room_create){
+                var rname = message[1];
+                var rpass = message[2];
+                var rmax  = message[3];
+                var rmode = message[4];
+                self.room = new Room(rname, rpass, rmax, rmode, self.server);
+                self.room.addPlayer(self);
+                self.owner = self.room.id;
+                self.server.rooms[self.room.id] = self.room;
             }
         });
         this.connection.onClose(function () {
